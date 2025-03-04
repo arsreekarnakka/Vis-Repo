@@ -25,7 +25,6 @@ jobs:
           projectKey: 'arsreekarnakka-Vis-Repo' 
           login: ${{ secrets.codescan_token }}
           scanChangedFilesOnly: true
-          generateSarifFile: true
           failOnRedQualityGate: true
       - name: Run Codescan On PR 
         if: github.event_name == 'pull_request' 
@@ -39,13 +38,4 @@ jobs:
           args: | 
             sonar.pullrequest.branch=${{github.head_ref}}
             sonar.pullrequest.base=${{github.base_ref}}
-            sonar.pullrequest.key=${{github.event.number}}
-      - name: Upload SARIF file 
-        uses: github/codeql-action/upload-sarif@v3 
-        with: 
-          sarif_file: codescan.sarif 
-      - name: Archive code coverage results
-        uses: actions/upload-artifact@v4
-        with:
-          name: codescan.sarif
-          path: codescan.sarif
+            sonar.pullrequest.key=${{github.event.number}}    
